@@ -27,13 +27,33 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# settings.py
+
+DATABASE_ROUTERS = ["Databases101ORM.database_routers.ShardingRouter"]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'password',
-        'HOST': 'db',
+        'HOST': 'db1',
+        'PORT': 5432,
+    },
+    'server_1': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'db1',
+        'PORT': 5432,
+    },
+    'server_2': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'db2',
         'PORT': 5432,
     }
 }

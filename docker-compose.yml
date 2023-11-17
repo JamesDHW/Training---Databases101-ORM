@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  db:
+  db1:
     image: postgres
     ports:
       - 5432:5432
@@ -13,13 +13,25 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 3s
       retries: 10
+  db2:
+    image: postgres
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 3s
+      retries: 10
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./Databases101ORM:/Databases101ORM
     ports:
-      - "8000:8000"
+      - 8000:8000
     depends_on:
-      db:
+      db1:
+        condition: service_healthy
+      db2:
         condition: service_healthy
